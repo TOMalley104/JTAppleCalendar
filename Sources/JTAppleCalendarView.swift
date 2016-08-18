@@ -176,13 +176,19 @@ public class JTAppleCalendarView: UIView {
     var theSelectedIndexPaths: [NSIndexPath] = []
     var theSelectedDates:      [NSDate]      = []
     
-    /// Returns all selected dates
+    /// Returns all selected dates. Setting will update collectionView selection and reload, triggering delegate/dataSource methods
     public var selectedDates: [NSDate] {
         get {
             // Array may contain duplicate dates in case where out-dates are selected. So clean it up here
             return Array(Set(theSelectedDates)).sort()
         }
+        set {
+            theSelectedDates = newValue
+            theSelectedIndexPaths = pathsFromDates(theSelectedDates)
+            reloadData()
+        }
     }
+
     
     lazy var monthInfo : [[Int]] = {
         [weak self] in
