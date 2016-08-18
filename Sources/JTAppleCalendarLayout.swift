@@ -77,7 +77,16 @@ public class JTAppleCalendarLayout: UICollectionViewLayout, JTAppleCalendarLayou
     public override func collectionViewContentSize() -> CGSize {
         return CGSize(width: contentWidth, height: contentHeight)
     }
-    
+
+    // TODO: document
+    public override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+        if let cv = collectionView where cv.bounds.size != newBounds.size {
+            clearCache()
+            return true
+        }
+        return false
+    }
+
     /// Returns the layout attributes for all of the cells and views in the specified rectangle.
     override public func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let startSectionIndex = startIndexFrom(rectOrigin: rect.origin)
